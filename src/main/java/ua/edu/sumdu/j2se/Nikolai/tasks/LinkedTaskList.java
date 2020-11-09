@@ -10,9 +10,9 @@ public class LinkedTaskList {
         this.head = null;
     }
 
-    static class Node {
+    private class Node {
         public Task task;
-        Node nextNode;
+        public Node nextNode;
 
         Node(Task date){
             this.task = date;
