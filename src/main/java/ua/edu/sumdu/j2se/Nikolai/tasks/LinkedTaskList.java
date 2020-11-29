@@ -44,10 +44,15 @@ public class LinkedTaskList extends AbstractTaskList{
 
             @Override
             public void remove() {
-                if(previousNode == null)
-                    throw new  IllegalStateException("");
-
-                LinkedTaskList.this.remove(previousNode.task);
+                try {
+                    if(previousNode == null)
+                        throw new IllegalStateException("Illegal State Exception");
+                    LinkedTaskList.this.remove(previousNode.task);
+                }
+                catch (IllegalStateException | UnsupportedOperationException e){
+                    System.out.println(e.getMessage());
+                    throw e;
+                }
             }
         };
     }

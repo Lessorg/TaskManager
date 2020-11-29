@@ -34,12 +34,17 @@ public class ArrayTaskList extends AbstractTaskList{
 
             @Override
             public void remove() {
-                if(previousIndex == -1)
-                    throw new  IllegalStateException("");
-
-                ArrayTaskList.this.remove(taskListArray[previousIndex]);
-                currentIndex = previousIndex;
-                previousIndex = -1;
+                try {
+                    if (previousIndex == -1)
+                        throw new IllegalStateException("Illegal State Exception");
+                    ArrayTaskList.this.remove(taskListArray[previousIndex]);
+                    currentIndex = previousIndex;
+                    previousIndex = -1;
+                }
+                catch (UnsupportedOperationException | IllegalStateException e){
+                    System.out.println(e.getMessage());
+                    throw e;
+                }
             }
         };
         return it;
