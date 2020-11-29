@@ -132,14 +132,6 @@ public class LinkedTaskList extends AbstractTaskList{
                     }
                     size--;
 
-                    currentNode = head;
-                    int currentIndex = 0;
-
-                    while(currentNode != null){
-                        currentNode = currentNode.nextNode;
-                        currentIndex++;
-                    }
-
                     return true;
                 }
                 previousNode = currentNode;
