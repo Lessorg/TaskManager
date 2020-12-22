@@ -1,16 +1,12 @@
 package ua.edu.sumdu.j2se.Nikolai.tasks;
 
-import java.util.Iterator;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 
 public class Main {
 
 	public static void main(String[] args) throws CloneNotSupportedException {
-
-		Task A = new Task("A", 10);
-		Task B = new Task("B", 20);
-		LinkedTaskList listA = new LinkedTaskList();
-		listA.add(A);
-		listA.add(B);
-		System.out.println(A.getClass());
+		System.out.println(int[].class.getName());
 	}
 }
