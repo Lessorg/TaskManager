@@ -1,4 +1,9 @@
-package ua.edu.sumdu.j2se.Nikolai.tasks;
+package ua.edu.sumdu.j2se.Nikolai.tasks.model;
+
+import org.apache.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import ua.edu.sumdu.j2se.Nikolai.tasks.model.observer.LinkedListObserver;
+import ua.edu.sumdu.j2se.Nikolai.tasks.view.CalendarView;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -6,13 +11,20 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class LinkedTaskList extends AbstractTaskList {
+    private static final Logger log = Logger.getLogger(LinkedTaskList.class);
 
     private Node head;
     private int size;
+    private LinkedListObserver saveChecker;
+
+    public void setSaveChecker(LinkedListObserver saveChecker) {
+        this.saveChecker = saveChecker;
+    }
 
     public LinkedTaskList(){
         this.size = 0;
         this.head = null;
+        saveChecker= null;
         type = ListTypes.types.LINKED;
     }
 
@@ -27,7 +39,7 @@ public class LinkedTaskList extends AbstractTaskList {
     }
 
     @Override
-    public Iterator<Task> iterator() {
+    public @NotNull Iterator<Task> iterator() {
 
         return new Iterator<Task>() {
             Node currentNode = head;
@@ -35,7 +47,7 @@ public class LinkedTaskList extends AbstractTaskList {
 
             @Override
             public boolean hasNext() {
-                return head.nextNode != null && currentNode != null;
+                return head != null && currentNode != null;
             }
 
             @Override
@@ -49,12 +61,11 @@ public class LinkedTaskList extends AbstractTaskList {
             public void remove() {
                 try {
                     if(previousNode == null)
-                        throw new IllegalStateException("Illegal State Exception");
+                        log.fatal("LinkedTaskList ", new IllegalStateException("Illegal State Exception"));
                     LinkedTaskList.this.remove(previousNode.task);
                 }
                 catch (IllegalStateException | UnsupportedOperationException e){
-                    System.out.println(e.getMessage());
-                    throw e;
+                    log.fatal("LinkedTaskList ", e);
                 }
             }
         };
@@ -92,13 +103,14 @@ public class LinkedTaskList extends AbstractTaskList {
     }
 
     @Override
-    public LinkedTaskList clone() throws CloneNotSupportedException {
+    public LinkedTaskList clone() {
         LinkedTaskList ResultList;
         try {
             ResultList = (LinkedTaskList)super.clone();
         }
         catch( CloneNotSupportedException ex ) {
-            throw new CloneNotSupportedException();
+            log.fatal("LinkedTaskList ", new CloneNotSupportedException());
+            ResultList = null;
         }
         return ResultList;
     }
@@ -120,6 +132,8 @@ public class LinkedTaskList extends AbstractTaskList {
             currentNode.nextNode = newNode;
         }
         size++;
+        if (saveChecker != null)
+        saveChecker.update();
     }
 
     @Override
@@ -138,6 +152,7 @@ public class LinkedTaskList extends AbstractTaskList {
                     }
                     size--;
 
+                    saveChecker.update();
                     return true;
                 }
                 previousNode = currentNode;
@@ -166,7 +181,8 @@ public class LinkedTaskList extends AbstractTaskList {
             return currentNode.task;
         }
         else{
-            throw new IndexOutOfBoundsException("Index out of range: index = " + index);
+            log.fatal("LinkedTaskList ", new IndexOutOfBoundsException("Index out of range: index = " + index));
+            return null;
         }
     }
 

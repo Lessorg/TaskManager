@@ -1,6 +1,7 @@
-package ua.edu.sumdu.j2se.Nikolai.tasks;
+package ua.edu.sumdu.j2se.Nikolai.tasks.model;
 
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.time.Instant;
@@ -9,26 +10,35 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 public class TaskIO {
+    private static final Logger log = Logger.getLogger(TaskIO.class);
 
-    public static void writeBinary( AbstractTaskList tasks, File file) throws IOException {
+    public static void LoadTaskList (AbstractTaskList tasks) {
+        readBinary(tasks, new File("tasks.txt"));
+    }
+
+    public static void SaveTaskList (AbstractTaskList tasks) {
+        writeBinary(tasks, new File("tasks.txt"));
+    }
+
+    public static void writeBinary( AbstractTaskList tasks, File file) {
 
         try(FileOutputStream out = new FileOutputStream(file)){
             write(tasks, out);
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            log.fatal("TaskIO" ,e);
         }
     }
 
-    public static void readBinary( AbstractTaskList tasks, File file) throws IOException {
+    public static void readBinary( AbstractTaskList tasks, File file) {
 
         try(FileInputStream in = new FileInputStream(file)){
             read(tasks, in);
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            log.fatal("TaskIO", e);
         }
     }
 
@@ -63,35 +73,35 @@ public class TaskIO {
                     long sTime = inputStream.readLong();
                     long eTime = inputStream.readLong();
                     LocalDateTime startTime =
-                            LocalDateTime.ofInstant(Instant.ofEpochMilli(sTime),
-                                    ZoneId.ofOffset("UTC",ZoneOffset.UTC));
+                            LocalDateTime.ofInstant(Instant.ofEpochSecond(sTime),
+                                    ZoneId.of( "Etc/UTC" ));
                     LocalDateTime endTime =
-                            LocalDateTime.ofInstant(Instant.ofEpochMilli(eTime),
-                                    ZoneId.ofOffset("UTC",ZoneOffset.UTC));
+                            LocalDateTime.ofInstant(Instant.ofEpochSecond(eTime),
+                                    ZoneId.of( "Etc/UTC" ));
                     tasks.add(new Task(name, startTime, endTime, interval, active));
                 }
                 else {
                     long time = inputStream.readLong();
                     LocalDateTime finalTime =
-                            LocalDateTime.ofInstant(Instant.ofEpochMilli(time),
-                                    ZoneId.ofOffset("UTC",ZoneOffset.UTC));
+                            LocalDateTime.ofInstant(Instant.ofEpochSecond(time),
+                                    ZoneId.of( "Etc/UTC" ));
                     tasks.add(new Task(name, finalTime, active));
                 }
             }
         }
     }
 
-    public static void write(AbstractTaskList tasks, Writer out) throws IOException {
+    public static void write(AbstractTaskList tasks, Writer out) {
         try (BufferedWriter st = new BufferedWriter(out)) {
             Gson gson = new Gson();
             String taskJson = gson.toJson(tasks);
             st.write(taskJson);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.fatal("TaskIO",e);
         }
     }
 
-    public static void read(AbstractTaskList tasks, Reader in) throws IOException {
+    public static void read(AbstractTaskList tasks, Reader in) {
         try (BufferedReader st = new BufferedReader(in)) {
             Gson gson = new Gson();
             String json = st.readLine();
@@ -102,8 +112,8 @@ public class TaskIO {
             for (Task task: listOfTasks) {
                 tasks.add(task);
             }
-        } catch (IOException | IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            log.fatal("TaskIO", e);
         }
     }
 
@@ -111,7 +121,7 @@ public class TaskIO {
         try (FileWriter st = new FileWriter(file)) {
             write(tasks, st);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.fatal("TaskIO",e);
         }
     }
 
@@ -119,7 +129,7 @@ public class TaskIO {
         try (FileReader fileReader = new FileReader(file)) {
             read(tasks, fileReader);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.fatal("TaskIO",e);
         }
     }
 }

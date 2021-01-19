@@ -1,10 +1,12 @@
-package ua.edu.sumdu.j2se.Nikolai.tasks;
+package ua.edu.sumdu.j2se.Nikolai.tasks.model;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-public class ArrayTaskList extends AbstractTaskList{
+public class ArrayTaskList extends AbstractTaskList {
 
     private Task[] taskListArray;
     private int currentSize;
@@ -16,7 +18,7 @@ public class ArrayTaskList extends AbstractTaskList{
     }
 
     @Override
-    public Iterator<Task> iterator() {
+    public @NotNull Iterator<Task> iterator() {
         Iterator<Task> it = new Iterator<Task>() {
 
             private int currentIndex = 0;
