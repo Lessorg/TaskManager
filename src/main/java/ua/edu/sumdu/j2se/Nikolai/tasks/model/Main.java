@@ -8,11 +8,13 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		LinkedTaskList list = new LinkedTaskList();
-		TaskIO.LoadTaskList(list);
-		list.setSaveChecker(new LinkedListObserver(list));
+		LinkedTaskList TaskList = new LinkedTaskList();
+		TaskIO.LoadTaskList(TaskList);
+		TaskList.setSaveChecker(new LinkedListObserver(TaskList));
 
-		MainController program = new MainController(new MainView(), list);
+		MainController program = new MainController(new MainView(), TaskList);
 		program.process();
 	}
+
+
 }

@@ -3,7 +3,6 @@ package ua.edu.sumdu.j2se.Nikolai.tasks.model;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import ua.edu.sumdu.j2se.Nikolai.tasks.model.observer.LinkedListObserver;
-import ua.edu.sumdu.j2se.Nikolai.tasks.view.CalendarView;
 
 import java.util.Iterator;
 import java.util.LinkedList;

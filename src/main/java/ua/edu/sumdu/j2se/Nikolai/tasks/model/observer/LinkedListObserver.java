@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2se.Nikolai.tasks.model.observer;
 
 import ua.edu.sumdu.j2se.Nikolai.tasks.model.LinkedTaskList;
+import ua.edu.sumdu.j2se.Nikolai.tasks.model.Notifications;
 import ua.edu.sumdu.j2se.Nikolai.tasks.model.TaskIO;
 
 public class LinkedListObserver {
@@ -11,6 +12,7 @@ public class LinkedListObserver {
     }
 
     public void update(){
+        Notifications.changeComingTaskTime();
         TaskIO.SaveTaskList(subject);
     }
 }
