@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class DeleteTaskView implements  View {
-    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static final Logger log = Logger.getLogger(DeleteTaskView.class);
     @Override
-    public long printInfo() {
+    public int printInfo() {
         System.out.println("Input task id what you want to delete");
         try {
             reader.mark(5);

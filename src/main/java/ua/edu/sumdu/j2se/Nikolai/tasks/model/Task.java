@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2se.Nikolai.tasks.model;
 
 import org.apache.log4j.Logger;
-import ua.edu.sumdu.j2se.Nikolai.tasks.view.CalendarView;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -159,8 +158,8 @@ public class Task implements Serializable, Cloneable {
 
     public void setTime(LocalDateTime time) {
         if (isRepeated()) {
-            start = LocalDateTime.MIN;;
-            end = LocalDateTime.MIN;;
+            start = LocalDateTime.MIN;
+            end = LocalDateTime.MIN;
             interval = 0;
             repeated = false;
         }
@@ -169,8 +168,8 @@ public class Task implements Serializable, Cloneable {
 
     public void setTime(int time) {
         if (isRepeated()) {
-            start = LocalDateTime.MIN;;
-            end = LocalDateTime.MIN;;
+            start = LocalDateTime.MIN;
+            end = LocalDateTime.MIN;
             interval = 0;
             repeated = false;
         }
@@ -202,7 +201,6 @@ public class Task implements Serializable, Cloneable {
         else {
             return 0;
         }
-
     }
 
     public void setTime(LocalDateTime start, LocalDateTime end, int interval) {

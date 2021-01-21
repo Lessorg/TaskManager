@@ -1,5 +1,8 @@
 package ua.edu.sumdu.j2se.Nikolai.tasks.controller;
 
+/**
+ * Storage all possible actions
+ */
 public final class ControllerConstants {
     public static final int MainControllerAction = 0;
     public static final int CalendarControllerAction = 1;

@@ -9,11 +9,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 
-public class InputFirstDate implements View{
+public class InputFirstDate {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static final Logger log = Logger.getLogger(InputFirstDate.class);
 
-    @Override
     public long printInfo() {
         System.out.println("Input start date(format 2021-01-18T00:31:12)");
         LocalDateTime temp;

@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import org.apache.log4j.Logger;
 
 public class CalendarView implements View{
-    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static final Logger log = Logger.getLogger(CalendarView.class);
 
     @Override
-    public long printInfo() {
+    public int printInfo() {
         System.out.println("Chose activity");
         System.out.println("1) Set new interval");
         System.out.println("2) Add/Edit task");

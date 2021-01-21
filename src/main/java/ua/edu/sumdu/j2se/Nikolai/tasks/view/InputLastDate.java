@@ -9,11 +9,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 
-public class InputLastDate implements View {
+public class InputLastDate {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static final Logger log = Logger.getLogger(InputLastDate.class);
 
-    @Override
     public long printInfo() {
         System.out.println("Input last date");
         LocalDateTime temp;

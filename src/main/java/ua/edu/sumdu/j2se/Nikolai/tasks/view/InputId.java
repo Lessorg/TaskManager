@@ -6,23 +6,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class InputIdView implements View {
+public class InputId {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private static final Logger log = Logger.getLogger(InputIdView.class);
+    private static final Logger log = Logger.getLogger(InputId.class);
 
-    @Override
-    public long printInfo() {
+    public int inputId() {
         System.out.println("Input task id:");
         try {
             reader.mark(4);
             return Integer.parseInt(reader.readLine());
         } catch (IOException e) {
             log.fatal("InputIdView " ,e);
-            return printInfo();
+            return inputId();
         } catch (NumberFormatException e) {
             log.warn("InputIdView",e);
             System.out.println("Incorrect input please try again(1 2 3 or 4)");
-            return printInfo();
+            return inputId();
         }
     }
 }

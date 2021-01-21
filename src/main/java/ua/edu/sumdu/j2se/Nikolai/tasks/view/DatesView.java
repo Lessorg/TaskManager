@@ -8,14 +8,14 @@ import java.util.Set;
 import java.util.SortedMap;
 
 public class DatesView implements View {
-    private SortedMap<LocalDateTime, Set<Task>> tasksList;
+    private final SortedMap<LocalDateTime, Set<Task>> tasksList;
 
     public DatesView(SortedMap<LocalDateTime, Set<Task>> tasksList) {
         this.tasksList = tasksList;
     }
 
     @Override
-    public long printInfo() {
+    public int printInfo() {
         System.out.println("Calendar: ");
         for (SortedMap.Entry<LocalDateTime, Set<Task>> entry:tasksList.entrySet()) {
             for (Task task:entry.getValue()) {
