@@ -13,11 +13,11 @@ public class TaskIO {
     private static final Logger log = Logger.getLogger(TaskIO.class);
 
     public static void LoadTaskList (AbstractTaskList tasks) {
-        readBinary(tasks, new File("tasks.txt"));
+        readBinary(tasks, new File(StringsVariables.filename));
     }
 
     public static void SaveTaskList (AbstractTaskList tasks) {
-        writeBinary(tasks, new File("tasks.txt"));
+        writeBinary(tasks, new File(StringsVariables.filename));
     }
 
     public static void writeBinary( AbstractTaskList tasks, File file) {
@@ -27,7 +27,7 @@ public class TaskIO {
         }
         catch (IOException e)
         {
-            log.fatal("TaskIO" ,e);
+            log.fatal(e.getMessage() ,e);
         }
     }
 
@@ -38,7 +38,7 @@ public class TaskIO {
         }
         catch (IOException e)
         {
-            log.fatal("TaskIO", e);
+            log.fatal(e.getMessage(), e);
         }
     }
 
@@ -74,17 +74,17 @@ public class TaskIO {
                     long eTime = inputStream.readLong();
                     LocalDateTime startTime =
                             LocalDateTime.ofInstant(Instant.ofEpochSecond(sTime),
-                                    ZoneId.of( "Etc/UTC" ));
+                                    ZoneId.of( StringsVariables.zone ));
                     LocalDateTime endTime =
                             LocalDateTime.ofInstant(Instant.ofEpochSecond(eTime),
-                                    ZoneId.of( "Etc/UTC" ));
+                                    ZoneId.of( StringsVariables.zone ));
                     tasks.add(new Task(name, startTime, endTime, interval, active));
                 }
                 else {
                     long time = inputStream.readLong();
                     LocalDateTime finalTime =
                             LocalDateTime.ofInstant(Instant.ofEpochSecond(time),
-                                    ZoneId.of( "Etc/UTC" ));
+                                    ZoneId.of( StringsVariables.zone ));
                     tasks.add(new Task(name, finalTime, active));
                 }
             }
@@ -97,7 +97,7 @@ public class TaskIO {
             String taskJson = gson.toJson(tasks);
             st.write(taskJson);
         } catch (IOException e) {
-            log.fatal("TaskIO",e);
+            log.fatal(e.getMessage(),e);
         }
     }
 
@@ -113,7 +113,7 @@ public class TaskIO {
                 tasks.add(task);
             }
         } catch (IOException e) {
-            log.fatal("TaskIO", e);
+            log.fatal(e.getMessage(), e);
         }
     }
 
@@ -121,7 +121,7 @@ public class TaskIO {
         try (FileWriter st = new FileWriter(file)) {
             write(tasks, st);
         } catch (IOException e) {
-            log.fatal("TaskIO",e);
+            log.fatal(e.getMessage(),e);
         }
     }
 
@@ -129,7 +129,7 @@ public class TaskIO {
         try (FileReader fileReader = new FileReader(file)) {
             read(tasks, fileReader);
         } catch (IOException e) {
-            log.fatal("TaskIO",e);
+            log.fatal(e.getMessage(),e);
         }
     }
 }

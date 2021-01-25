@@ -4,6 +4,7 @@ import ua.edu.sumdu.j2se.Nikolai.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.Nikolai.tasks.model.Task;
 import ua.edu.sumdu.j2se.Nikolai.tasks.view.InputId;
 import ua.edu.sumdu.j2se.Nikolai.tasks.view.TaskInputView;
+import ua.edu.sumdu.j2se.Nikolai.tasks.view.UserChoice;
 import ua.edu.sumdu.j2se.Nikolai.tasks.view.View;
 
 /**
@@ -35,22 +36,17 @@ public class AddEditTaskController extends Controller{
      */
     @Override
     public int process() {
+        Task newTask;
 
-        Task newTask = null;
-        InputId inputIdView = new InputId();
-        int id = inputIdView.inputId();
-        for (Task task : taskList) {
-            if (task.getId() == id) {
-                taskList.remove(task);
-                newTask = TaskInputView.inputTask(id);
-                taskList.add(newTask);
-                break;
-            }
-        }
-        if (newTask == null) {
+        if (UserChoice.printInfo()) {
+            InputId inputIdView = new InputId();
+            int id = inputIdView.inputId();
+            taskList.remove(id);
+            newTask = TaskInputView.inputTask(id);
+        } else {
             newTask = TaskInputView.inputTask();
-            taskList.add(newTask);
         }
+        taskList.add(newTask);
 
         view.printInfo();
         return previousActionToDo;

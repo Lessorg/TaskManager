@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2se.Nikolai.tasks.view;
 
 import org.apache.log4j.Logger;
+import ua.edu.sumdu.j2se.Nikolai.tasks.model.StringsVariables;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,11 +17,11 @@ public class InputId {
             reader.mark(4);
             return Integer.parseInt(reader.readLine());
         } catch (IOException e) {
-            log.fatal("InputIdView " ,e);
+            log.fatal(e.getMessage() ,e);
             return inputId();
         } catch (NumberFormatException e) {
-            log.warn("InputIdView",e);
-            System.out.println("Incorrect input please try again(1 2 3 or 4)");
+            log.warn(e.getMessage(),e);
+            System.out.println(StringsVariables.incorrectInput);
             return inputId();
         }
     }

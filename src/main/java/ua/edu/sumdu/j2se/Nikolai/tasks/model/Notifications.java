@@ -22,8 +22,8 @@ public class Notifications implements Runnable {
         comingTaskTime = comingTasksTime();
 
         do {
-            if (LocalDateTime.now().isBefore(comingTaskTime) &&
-                    LocalDateTime.now().isAfter(comingTaskTime.minusMinutes(5))) {
+            if (LocalDateTime.now().isEqual(comingTaskTime)) {
+                System.out.println(comingTasks());
                 if (SystemTray.isSupported()) {
                     try {
                         displayMessage(comingTasks());
@@ -73,9 +73,9 @@ public class Notifications implements Runnable {
 
         TrayIcon trayIcon = new TrayIcon(image, "TaskManager");
         trayIcon.setImageAutoSize(true);
-        trayIcon.setToolTip("Incoming task");
+        trayIcon.setToolTip(StringsVariables.incomingTasks);
         tray.add(trayIcon);
 
-        trayIcon.displayMessage("Incoming tasks", tasks, TrayIcon.MessageType.INFO);
+        trayIcon.displayMessage(StringsVariables.incomingTasks, tasks, TrayIcon.MessageType.INFO);
     }
 }

@@ -21,8 +21,10 @@ public class Task implements Serializable, Cloneable {
     private boolean repeated;
 
     public Task(String title, LocalDateTime time) throws IllegalArgumentException {
-        if (time == null)
-            log.fatal("Task ", new IllegalArgumentException("time is null"));
+        if (time == null) {
+            Exception e = new IllegalArgumentException(StringsVariables.timeNull);
+            log.fatal(e.getMessage(), e );
+        }
 
         this.time = time;
         this.start = LocalDateTime.MIN;
@@ -35,8 +37,10 @@ public class Task implements Serializable, Cloneable {
     }
 
     public Task(String title, LocalDateTime time, boolean active) throws IllegalArgumentException {
-        if (time == null)
-            log.fatal("Task ", new IllegalArgumentException("time is null"));
+        if (time == null) {
+            Exception e = new IllegalArgumentException(StringsVariables.timeNull);
+            log.fatal(e.getMessage(), e);
+        }
         this.time = time;
         this.start = LocalDateTime.MIN;
         this.end = LocalDateTime.MIN;
@@ -48,8 +52,10 @@ public class Task implements Serializable, Cloneable {
     }
 
     public Task(int Id, String title, LocalDateTime time, boolean active) throws IllegalArgumentException {
-        if (time == null)
-            log.fatal("Task ", new IllegalArgumentException("time is null"));
+        if (time == null) {
+            Exception e = new IllegalArgumentException(StringsVariables.timeNull);
+            log.fatal(e.getMessage(), e);
+        }
         this.time = time;
         this.start = LocalDateTime.MIN;
         this.end = LocalDateTime.MIN;
@@ -63,10 +69,12 @@ public class Task implements Serializable, Cloneable {
     public Task(String title, LocalDateTime start, LocalDateTime end, int interval) throws IllegalArgumentException{
 
         if (start == null || end == null || start.isAfter(end)) {
-            log.fatal("Task ", new IllegalArgumentException("Incorrect time"));
+            Exception e = new IllegalArgumentException(StringsVariables.incorrectTime);
+            log.fatal(e.getMessage(), e);
         }
         if (interval < 0) {
-            log.fatal("Task ", new IllegalArgumentException("Too small interval:  interval = " + interval));
+            Exception e = new IllegalArgumentException(StringsVariables.tooSmall + interval);
+            log.fatal(e.getMessage(), e);
         }
         this.time = LocalDateTime.MIN;
         this.start = start;
@@ -81,10 +89,12 @@ public class Task implements Serializable, Cloneable {
     public Task(int Id, String title, LocalDateTime start, LocalDateTime end, int interval) throws IllegalArgumentException{
 
         if (start == null || end == null || start.isAfter(end)) {
-            log.fatal("Task ", new IllegalArgumentException("Incorrect time"));
+            Exception e = new IllegalArgumentException(StringsVariables.incorrectTime);
+            log.fatal(e.getMessage(), e);
         }
         if (interval < 0) {
-            log.fatal("Task ", new IllegalArgumentException("Too small interval:  interval = " + interval));
+            Exception e = new IllegalArgumentException(StringsVariables.tooSmall + interval);
+            log.fatal(e.getMessage(), e);
         }
         this.time = LocalDateTime.MIN;
         this.start = start;
@@ -98,10 +108,12 @@ public class Task implements Serializable, Cloneable {
 
     public Task(String title, LocalDateTime start, LocalDateTime end, int interval, boolean active) throws IllegalArgumentException {
         if (start == null || end == null || start.isAfter(end)) {
-            log.fatal("Task ", new IllegalArgumentException("Incorrect time: start = " + start + " end = " + end));
+            Exception e = new IllegalArgumentException(StringsVariables.incorrectTime + start + " end = " + end);
+            log.fatal(e.getMessage(), e);
         }
         if (interval < 0) {
-            log.fatal("Task ", new IllegalArgumentException("Negative interval:  interval = " + interval));
+            Exception e = new IllegalArgumentException(StringsVariables.negativeInterval + interval);
+            log.fatal(e.getMessage(), e);
         }
         this.time = start;
         this.start = start;
@@ -116,10 +128,12 @@ public class Task implements Serializable, Cloneable {
     public Task(String title, LocalDateTime time, LocalDateTime start, LocalDateTime end, int interval, boolean active)
     {
         if (time == null || start == null || end == null || start.isAfter(end)) {
-            log.fatal("Task ", new IllegalArgumentException("Incorrect time: time = " + time + " start = " + start + " end = " + end));
+            Exception e = new IllegalArgumentException(StringsVariables.incorrectTime + time + " start = " + start + " end = " + end);
+            log.fatal(e.getMessage(), e);
         }
         if (interval < 0) {
-            log.fatal("Task ", new IllegalArgumentException("Negative interval:  interval = " + interval));
+            Exception e = new IllegalArgumentException(StringsVariables.negativeInterval + interval);
+            log.fatal(e.getMessage(), e);
         }
         this.time = time;
         this.start = start;
@@ -276,8 +290,8 @@ public class Task implements Serializable, Cloneable {
         try {
             return (Task)super.clone();
         }
-        catch( CloneNotSupportedException ex ) {
-            log.fatal("Task.clone() ", new CloneNotSupportedException());
+        catch( CloneNotSupportedException e ) {
+            log.fatal(e.getMessage(), e);
         }
         return null;
     }

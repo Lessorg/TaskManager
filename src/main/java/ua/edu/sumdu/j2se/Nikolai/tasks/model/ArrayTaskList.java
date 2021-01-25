@@ -14,7 +14,7 @@ public class ArrayTaskList extends AbstractTaskList {
     public ArrayTaskList(){
         this.taskListArray = new Task[10];
         this.currentSize = 0;
-        type = ListTypes.types.ARRAY;
+        type = ListTypes.ARRAY;
     }
 
     @Override
@@ -107,6 +107,20 @@ public class ArrayTaskList extends AbstractTaskList {
     public boolean remove(Task task){
         for (int i = 0; i < currentSize; i++){
             if (task.equals(taskListArray[i])){
+                if (currentSize - 1 - i >= 0)
+                    System.arraycopy(taskListArray, i + 1, taskListArray, i, currentSize - 1 - i);
+
+                currentSize --;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean remove(int id) {
+        for (int i = 0; i < currentSize; i++){
+            if (taskListArray[i].getId() == id){
                 if (currentSize - 1 - i >= 0)
                     System.arraycopy(taskListArray, i + 1, taskListArray, i, currentSize - 1 - i);
 

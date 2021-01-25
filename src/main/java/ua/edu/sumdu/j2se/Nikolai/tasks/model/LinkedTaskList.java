@@ -24,7 +24,7 @@ public class LinkedTaskList extends AbstractTaskList {
         this.size = 0;
         this.head = null;
         saveChecker= null;
-        type = ListTypes.types.LINKED;
+        type = ListTypes.LINKED;
     }
 
     private static class Node {
@@ -59,12 +59,14 @@ public class LinkedTaskList extends AbstractTaskList {
             @Override
             public void remove() {
                 try {
-                    if(previousNode == null)
-                        log.fatal("LinkedTaskList ", new IllegalStateException("Illegal State Exception"));
+                    if(previousNode == null) {
+                        Exception e = new IllegalStateException(StringsVariables.illegalEx);
+                        log.fatal(e.getMessage(), e);
+                    }
                     LinkedTaskList.this.remove(previousNode.task);
                 }
                 catch (IllegalStateException | UnsupportedOperationException e){
-                    log.fatal("LinkedTaskList ", e);
+                    log.fatal(e.getMessage(), e);
                 }
             }
         };
@@ -107,8 +109,8 @@ public class LinkedTaskList extends AbstractTaskList {
         try {
             ResultList = (LinkedTaskList)super.clone();
         }
-        catch( CloneNotSupportedException ex ) {
-            log.fatal("LinkedTaskList ", new CloneNotSupportedException());
+        catch( CloneNotSupportedException e ) {
+            log.fatal(e.getMessage() , new CloneNotSupportedException());
             ResultList = null;
         }
         return ResultList;
@@ -133,6 +135,32 @@ public class LinkedTaskList extends AbstractTaskList {
         size++;
         if (saveChecker != null)
         saveChecker.update();
+    }
+
+    @Override
+    public boolean remove(int id){
+
+        if (head != null){
+            Node currentNode = head;
+            Node previousNode = head;
+
+            for (int i = 0; i < size; i++) {
+                if (currentNode.task.getId() == id) {
+                    if (previousNode == currentNode) {
+                        head = currentNode.nextNode;
+                    } else {
+                        previousNode.nextNode = currentNode.nextNode;
+                    }
+                    size--;
+
+                    saveChecker.update();
+                    return true;
+                }
+                previousNode = currentNode;
+                currentNode = currentNode.nextNode;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -180,7 +208,8 @@ public class LinkedTaskList extends AbstractTaskList {
             return currentNode.task;
         }
         else{
-            log.fatal("LinkedTaskList ", new IndexOutOfBoundsException("Index out of range: index = " + index));
+            Exception e = new IndexOutOfBoundsException("Index out of range: index = " + index);
+            log.fatal(e.getMessage(), e);
             return null;
         }
     }

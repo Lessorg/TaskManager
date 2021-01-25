@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 public class TaskListFactory {
     private static final Logger log = Logger.getLogger(TaskListFactory.class);
 
-    public static AbstractTaskList createTaskList(ListTypes.types type) {
+    public static AbstractTaskList createTaskList(ListTypes type) {
 
             switch(type) {
                 case ARRAY:

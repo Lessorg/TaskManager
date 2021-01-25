@@ -16,10 +16,10 @@ public class DeleteTaskView implements  View {
             reader.mark(5);
             return Integer.parseInt(reader.readLine());
         } catch (IOException e) {
-            log.fatal(" DeleteTaskView ",e);
+            log.fatal(e.getMessage(),e);
             return printInfo();
         } catch (NumberFormatException e) {
-            log.warn("DeleteTaskView",e);
+            log.warn(e.getMessage(), e);
             System.out.println("Incorrect input please try again");
             return printInfo();
         }

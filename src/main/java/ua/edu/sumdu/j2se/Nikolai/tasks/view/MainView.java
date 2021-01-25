@@ -21,10 +21,10 @@ public class MainView implements View{
             reader.mark(1);
             return Integer.parseInt(reader.readLine());
         } catch (IOException e) {
-            log.fatal("MainView",e);
+            log.fatal(e.getMessage(),e);
             return printInfo();
         } catch (NumberFormatException e) {
-            log.warn("MainView",e);
+            log.warn(e.getMessage(),e);
             System.out.println("Incorrect input please try again(1 2 3 or 4)");
             return printInfo();
         }

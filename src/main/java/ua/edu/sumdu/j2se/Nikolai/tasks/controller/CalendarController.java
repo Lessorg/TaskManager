@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2se.Nikolai.tasks.controller;
 
 import ua.edu.sumdu.j2se.Nikolai.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.Nikolai.tasks.model.StringsVariables;
 import ua.edu.sumdu.j2se.Nikolai.tasks.model.Tasks;
 import ua.edu.sumdu.j2se.Nikolai.tasks.view.*;
 
@@ -19,6 +20,8 @@ public class CalendarController extends Controller {
      * Controllers which may called from this class
      */
     private final List<Controller> controllers = new ArrayList<>();
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
     /**
      * Constructs and initializes a CalendarController with values (view, actionToDo, taskList)
@@ -42,9 +45,12 @@ public class CalendarController extends Controller {
      */
     @Override
     public int process() {
-        LocalDateTime from = InputFrom();
-        LocalDateTime to = InputTo();
-        new DatesView(Tasks.calendar(taskList, from, to)).printInfo();
+        if (startTime == null || endTime == null) {
+            startTime = InputFrom();
+            endTime = InputTo();
+        }
+
+        new DatesView(Tasks.calendar(taskList, startTime, endTime)).printInfo();
 
         int action = view.printInfo();
         {
@@ -66,7 +72,7 @@ public class CalendarController extends Controller {
      */
     public LocalDateTime InputFrom() {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(new InputFirstDate().printInfo()),
-                ZoneId.of( "Etc/UTC" ));
+                ZoneId.of( StringsVariables.zone ));
     }
 
     /**
@@ -75,6 +81,6 @@ public class CalendarController extends Controller {
      */
     public LocalDateTime InputTo() {
          return LocalDateTime.ofInstant(Instant.ofEpochSecond(new InputLastDate().printInfo()),
-                ZoneId.of( "Etc/UTC" ));
+                ZoneId.of( StringsVariables.zone ));
     }
 }

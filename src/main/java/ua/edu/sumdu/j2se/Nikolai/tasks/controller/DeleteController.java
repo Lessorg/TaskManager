@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2se.Nikolai.tasks.controller;
 
 import ua.edu.sumdu.j2se.Nikolai.tasks.model.AbstractTaskList;
-import ua.edu.sumdu.j2se.Nikolai.tasks.model.Task;
 import ua.edu.sumdu.j2se.Nikolai.tasks.view.View;
 
 /**
@@ -34,12 +33,8 @@ public class DeleteController extends Controller {
      */
     @Override
     public int process() {
-        int id = view.printInfo();
-        for (Task task:taskList) {
-            if (task.getId() == id) {
-                taskList.remove(task);
-            }
-        }
+        taskList.remove(view.printInfo());
+
         return previousActionToDo;
     }
 }
