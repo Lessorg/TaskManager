@@ -46,8 +46,6 @@ public class MainController extends Controller {
      */
     @Override
     public int process() {
-        Thread tread = new Thread(new Notifications(taskList));
-        tread.start();
         int action = view.printInfo();
         do {
             for (Controller controller : controllers) {

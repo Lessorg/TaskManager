@@ -7,8 +7,9 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
-public class Notifications implements Runnable {
+public class Notifications extends Thread {
     private static final Logger log = Logger.getLogger(LinkedTaskList.class);
     private static LocalDateTime comingTaskTime;
     private static AbstractTaskList taskList;
@@ -20,10 +21,9 @@ public class Notifications implements Runnable {
     @Override
     public void run() {
         comingTaskTime = comingTasksTime();
-
         do {
-            if (LocalDateTime.now().isEqual(comingTaskTime)) {
-                System.out.println(comingTasks());
+            if (LocalDateTime.now().withSecond(0).withNano(0).isEqual(comingTaskTime)) {
+                System.out.println(comingTasks() + " Is coming");
                 if (SystemTray.isSupported()) {
                     try {
                         displayMessage(comingTasks());
@@ -31,38 +31,42 @@ public class Notifications implements Runnable {
                         log.warn(e);
                     }
                 }
+                changeComingTaskTime();
             }
         }
-        while (MainController.isIsEnd());
+        while (!MainController.isIsEnd());
     }
 
     public static void changeComingTaskTime() {
         if (comingTaskTime.compareTo(comingTasksTime()) != 0)
-            comingTaskTime = comingTasksTime();
+            comingTaskTime = comingTasksTime().withSecond(0).withNano(0);
     }
 
     private static LocalDateTime comingTasksTime() {
-        for (SortedMap.Entry<LocalDateTime, Set<Task>> entry : Tasks.calendar(taskList, LocalDateTime.now(),
-                LocalDateTime.MAX).entrySet()) {
-            return entry.getKey();
+        SortedMap<LocalDateTime, Set<Task>> map = Tasks.calendar(taskList, LocalDateTime.now(), LocalDateTime.MAX);
+        for (SortedMap.Entry<LocalDateTime, Set<Task>> entry:map.entrySet()) {
+            if (entry.getKey().compareTo(LocalDateTime.now().withSecond(0).withNano(0))>0)
+                return entry.getKey();
         }
         return LocalDateTime.MAX;
     }
 
     private static String comingTasks() {
         StringBuilder tasks = new StringBuilder(comingTaskTime.getHour() + ":" +
-                comingTaskTime.getMinute() + ":" +
-                comingTaskTime.getSecond() + " ");
-        for (SortedMap.Entry<LocalDateTime, Set<Task>> entry : Tasks.calendar(taskList, LocalDateTime.now(),
-                LocalDateTime.MAX).entrySet()) {
-            if (entry.getKey() == comingTaskTime) {
+                comingTaskTime.getMinute());
+
+        TreeMap<LocalDateTime, Set<Task>> map = (TreeMap<LocalDateTime, Set<Task>>)
+                Tasks.calendar(taskList, LocalDateTime.now().withSecond(0).withNano(0).minusMinutes(2),
+                        LocalDateTime.MAX);
+
+        for (SortedMap.Entry<LocalDateTime, Set<Task>> entry:map.entrySet()) {
+            if (comingTaskTime.isEqual(entry.getKey())) {
                 for (Task task : entry.getValue()) {
                     tasks.append(" ").append(task.getTitle()).append(", ");
                 }
-                break;
             }
-
         }
+
         return tasks.toString();
     }
 

@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.Nikolai.tasks.model;
 
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -7,7 +8,7 @@ import java.util.Iterator;
 import java.util.stream.Stream;
 
 public class ArrayTaskList extends AbstractTaskList {
-
+    private static final Logger log = Logger.getLogger(LinkedTaskList.class);
     private Task[] taskListArray;
     private int currentSize;
 
@@ -38,14 +39,16 @@ public class ArrayTaskList extends AbstractTaskList {
             @Override
             public void remove() {
                 try {
-                    if (previousIndex == -1)
-                        throw new IllegalStateException("Illegal State Exception");
+                    if (previousIndex == -1) {
+                        Exception e = new IllegalStateException(StringsVariables.illegalEx);
+                        log.fatal(e.getMessage(), e);
+                    }
                     ArrayTaskList.this.remove(taskListArray[previousIndex]);
                     currentIndex = previousIndex;
                     previousIndex = -1;
                 }
                 catch (UnsupportedOperationException | IllegalStateException e){
-                    System.out.println(e.getMessage());
+                    log.fatal(e.getMessage(), e);
                     throw e;
                 }
             }
@@ -142,8 +145,10 @@ public class ArrayTaskList extends AbstractTaskList {
             return taskListArray[index];
         }
         else{
-            throw new IndexOutOfBoundsException("Index out of range: index = " + index);
+            Exception e = new IndexOutOfBoundsException("Index out of range: index = " + index);
+            log.fatal(e.getMessage(), e);
         }
+        return null;
     }
 
     @Override

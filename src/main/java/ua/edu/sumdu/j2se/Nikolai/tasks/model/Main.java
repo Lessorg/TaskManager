@@ -8,11 +8,15 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		LinkedTaskList TaskList = new LinkedTaskList();
-		TaskIO.LoadTaskList(TaskList);
-		TaskList.setSaveChecker(new LinkedListObserver(TaskList));
+		LinkedTaskList taskList = new LinkedTaskList();
+		TaskIO.LoadTaskList(taskList);
 
-		MainController program = new MainController(new MainView(), TaskList);
+		Thread tread = new Thread(new Notifications(taskList));
+		tread.start();
+
+		taskList.setSaveChecker(new LinkedListObserver(taskList));
+
+		MainController program = new MainController(new MainView(), taskList);
 		program.process();
 	}
 
